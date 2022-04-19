@@ -9,15 +9,16 @@ import RowContainer from './RowContainer'
 
 import { useStateValue } from '../context/StateProvider'
 import MenuContainer from './MenuContainer'
+import Cart from './Cart'
 
 const MainContainer = () => {
 
-    const [{ foodItems }, dispatch] = useStateValue();
+    const [{ foodItems, cartShow }, dispatch] = useStateValue();
     const [scrollValue, setScrollValue]=useState(0)
 
     useEffect(() => {
         
-    },[scrollValue])
+    },[scrollValue, cartShow])
 
     return (
         <div className='w-full h-auto flex flex-col items-center justify-center'>
@@ -51,7 +52,10 @@ const MainContainer = () => {
                     flag={true}
                     data={foodItems?.filter(n => n.category === "fruits")} />
             </section>
-            <MenuContainer/>
+            <MenuContainer />
+            {cartShow && (
+                <Cart/>
+            )}
         </div>
     )
 }
