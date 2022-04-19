@@ -96,9 +96,11 @@ const Header = () => {
                                     {
                                         user && user.email === '55akif5548@gmail.com' && (
                                             <Link to={'/createItem'}>
-                                                <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base'>New Item <MdAdd/></p>
+                                                <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base'
+                                                onClick={()=> setIsMenu(false)}
+                                                >New Item <MdAdd /></p>
                                             </Link>
-                                        )
+                                        )  
                                     }
                                     <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base'
                                     onClick={logout}
@@ -146,17 +148,27 @@ const Header = () => {
                                 {
                                     user && user.email === '55akif5548@gmail.com' && (
                                         <Link to={'/createItem'}>
-                                            <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base'>New Item <MdAdd/></p>
+                                            <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base'
+                                            onClick={()=> setIsMenu(false)}
+                                            >New Item <MdAdd/></p>
                                         </Link>
                                     )
                                 }
 
                                 <ul 
                                     className='flex flex-col'>
-                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'>Home</li>
-                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'>Menu</li>
-                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'>About Us</li>
-                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'>Service</li>
+                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'
+                                    onClick={()=> setIsMenu(false)}
+                                    >Home</li>
+                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'
+                                    onClick={()=> setIsMenu(false)}
+                                    >Menu</li>
+                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'
+                                    onClick={()=> setIsMenu(false)}
+                                    >About Us</li>
+                                    <li className='text-base text-textColor hover: text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-200 px-4 py-2'
+                                    onClick={()=> setIsMenu(false)}
+                                    >Service</li>
 
                                 </ul>
 
