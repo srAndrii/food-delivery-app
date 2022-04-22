@@ -3,9 +3,6 @@ import HeroBg from '../img/heroBg.png';
 import { heroData } from '../utils/data';
 
 
-
-
-
 const HomeConteiner = () => {
     return (
         <section className='grid grid-cols-1 md:grid-cols-2 gap-2 w-full' id='home'>
@@ -25,9 +22,9 @@ const HomeConteiner = () => {
             <div className='p-5 flex-1 items-center relative'>
                 <img src={HeroBg} className='ml-auto h-420 w-full lg:w-auto lg:h-650' alt="hero-bg" />
 
-                <div className='w-full h-full absolute top-0 left-0 flex items-center justify-center lg:px-32 lg:py-10 py-4 gap-4 flex-wrap'>
+                <div className='w-full h-full absolute top-0 left-0 flex items-center justify-center lg:px-6 2xl:px-36 lg:py-10 py-4 gap-4 flex-wrap'>
                     {heroData && heroData.map(n => (
-                        <div key={n.id} className=' lg:w-190  p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col items-center justify-center drop-shadow-lg'>
+                        <div key={n.id} className=' lg:w-190  p-1 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col items-center justify-center drop-shadow-lg'>
                         <img src={n.imgSrc} className='w-[100px] lg:w-40 -mt-10 lg:-mt-20' alt="Icecream" />
 
                         <p className='text-base lg:text-xl font-semibold text-textColor mt-2 lg:mt-4'>

@@ -1,33 +1,35 @@
-
-import { motion } from 'framer-motion'
-import { MdOutlineKeyboardBackspace } from 'react-icons/md'
-import {RiRefreshFill} from 'react-icons/ri'
-import { useStateValue } from '../context/StateProvider'
-import { actionType } from '../context/reducer'
-import EmptyCart from '../img/emptyCart.svg'
-import CartItem from './CartItem'
 import { useEffect, useState } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { setCardShow, removeAllFromCart  } from '../actions';
+
+import { motion } from 'framer-motion'
+
+import { MdOutlineKeyboardBackspace } from 'react-icons/md'
+import { RiRefreshFill } from 'react-icons/ri'
+
+import EmptyCart from '../img/emptyCart.svg'
+import CartItem from './CartItem'
+
+
+
 const Cart = () => {
-    const [{ cartShow, cartItems, user }, dispatch] = useStateValue();
-    const [flag, setFlag] = useState(1);
+    const { user, cart } = useSelector(state => state);
+
+    const dispatch = useDispatch();
     const [total, setTotal] = useState(0);
 
-    useEffect(() => {
-        let totalPrice = cartItems.reduce(function (accumulator, item) {
+   
+      useEffect(() => {
+        let totalPrice = cart.reduce(function (accumulator, item) {
             return accumulator + item.qty * item.price;
         }, 0);
         setTotal(totalPrice);
-    }, [total, flag, cartItems]);
+    }, [total, cart]);
 
-
-    localStorage.setItem("cartItems", JSON.stringify([]));
 
     const showCart = () => {
-        dispatch({
-            type: actionType.SET_CART_SHOW,
-            cartShow: !cartShow,
-        })
+        dispatch(setCardShow())
     }
 
 
@@ -48,19 +50,21 @@ const Cart = () => {
                 <motion.p
                     whileTap={{scale:0.75}}
                     className='flex items-center gap-2 p-1 px-2 my-2 bg-gray-100 rounded-md hover:shadow-md cursor-pointer text-textColor text-base'
-                    
+                    onClick={()=>dispatch(removeAllFromCart())}
                 >
                     Clear <RiRefreshFill />
                 </motion.p>
             </div>
             {/*Bottom section*/}
-            {cartItems && cartItems.length > 0 ? (
+            {cart && cart.length > 0 ? (
                  <div className='w-full h-full bg-cartBg rounded-t-[2rem] flex flex-col'>
                 {/*Cart Items section */}
                 <div className='w-full h-340 md:h-42 px-6 py-10 flex flex-col gap-3 overflow-y-scroll scrollbar-none'>
                     {/*Cart Item */}
-                    {cartItems && cartItems.map((item) => (
-                        <CartItem key={item.id} item={item} setFlag={setFlag} flag={flag} />
+                    {cart && cart.map((item) => (
+                        <CartItem key={item.id} item={item}
+                            
+                        />
                     ))}
                     
                 </div>

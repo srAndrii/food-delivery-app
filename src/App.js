@@ -1,30 +1,30 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom'
 
-import { CreateContainer, Header, MainContainer } from './componnets';
+import { CreateContainer, Footer, Header, MainContainer } from './componnets';
 
 import { AnimatePresence } from 'framer-motion';
 
-import { useStateValue } from './context/StateProvider';
 
 import { getAllFoodItems } from './utils/firebaseFunction';
 
-import { actionType } from "./context/reducer";
+
+import { useDispatch } from "react-redux";
+import { setFoodItems } from './actions'
 
 function App() {
-    const [{ foodItems }, dispatch] = useStateValue();
+  const dispatch = useDispatch();
+
     
-    const fetchFoodItems = async () => {
-    await getAllFoodItems().then((data) => {
-      dispatch({
-        type: actionType.SET_FOOD_ITEMS,
-        foodItems: data,
+  const fetchFoodItems = async () => {
+      await getAllFoodItems().then((data) => {
+      dispatch(setFoodItems(data));
       });
-    });
   };
 
   useEffect(() => {
-    fetchFoodItems();
+      fetchFoodItems();
+       // eslint-disable-next-line
   }, []);
     
     return (
@@ -37,6 +37,7 @@ function App() {
                         <Route path='/createItem' element={<CreateContainer/>}/>
                     </Routes>
                 </main>
+                <Footer/>
             </div>
         </AnimatePresence>
         

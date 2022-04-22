@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { useDispatch } from "react-redux";
+import {  setFoodItems} from '../actions'
+
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable, } from "firebase/storage";
 import { storage } from '../firebase.config'
 import { saveItem } from '../utils/firebaseFunction'
@@ -10,14 +13,6 @@ import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney } from '
 import { Loader } from './index'
 
 import { categories } from "../utils/data";
-
-import { useStateValue } from "../context/StateProvider";
-import { actionType } from "../context/reducer";
-
-
-
-
-
 
 
 
@@ -33,8 +28,8 @@ const CreateContainer = () => {
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [imageAsset, setImageAsset] = useState(null);
-    const [{foodItems }, dispatch] = useStateValue();
 
+    const dispatch = useDispatch();
 
     const uploadImg = (e) => {
         setIsLoading(true);
@@ -42,7 +37,7 @@ const CreateContainer = () => {
         const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`)
         const uploadTask = uploadBytesResumable(storageRef, imageFile);
         uploadTask.on('state_changet', (snapshot) => {
-            const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         }, (error) => {
             console.log(error)
             setFields(true)
@@ -134,13 +129,10 @@ const CreateContainer = () => {
     
     
     const fetchFoodItems = async () => {
-    await getAllFoodItems().then((data) => {
-      dispatch({
-        type: actionType.SET_FOOD_ITEMS,
-        foodItems: data,
-      });
-    });
-  };
+        await getAllFoodItems().then((data) => {
+        dispatch(setFoodItems(data));
+        });
+    };
 
     return (
         <div className='w-full min-h-screen flex items-center justify-center'>

@@ -1,57 +1,22 @@
+import { useDispatch } from 'react-redux'
+
+import { minusQty, plusQty, removeFromCart } from '../actions';
+
 import { BiMinus, BiPlus } from 'react-icons/bi'
+
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { useStateValue } from '../context/StateProvider';
-import { actionType } from '../context/reducer';
 
-let items = [];
+const CartItem = ({ item }) => {
+    
+    const dispatch = useDispatch();
 
-const CartItem = ({ item, setFlag, flag }) => {
-    const [{ cartItems }, dispatch] = useStateValue();
-
-    const [qty, setQty] = useState(item.qty);
-
-    const cartDispatch = () => {
-        localStorage.setItem("cartItems", JSON.stringify(items));
-        dispatch({
-        type: actionType.SET_CART_ITEMS,
-        cartItems: items,
-        });
-    };
-
-    const updateQty = (action, id) => {
-
-        if (action == "add") {
-            setQty(qty + 1);
-            cartItems.map((item) => {
-                if (item.id === id) {
-                item.qty += 1;
-                setFlag(flag + 1);
-                }
-            });
-            cartDispatch();
-            
+    const minusItem = ()=>{
+        if (item.qty <= 1) {
+            dispatch(removeFromCart(item.id))
         } else {
-            if (qty == 1) {
-            items = cartItems.filter((item) => item.id !== id);
-            setFlag(flag + 1);
-            cartDispatch();
-            } else {
-                setQty(qty - 1);
-                cartItems.map((item) => {
-                    if (item.id === id) {
-                        item.qty -= 1;
-                        setFlag(flag + 1);
-                    }
-                });
-                cartDispatch();   
-            }
+            dispatch(minusQty(item))
         }
-    };
-
-  useEffect(() => {
-    items = cartItems;
-  }, [qty, items]);
+    }
 
     return (
         <div  className='w-full p-1 px-2 rounded-lg bg-cartItem flex items-center gap-2'>
@@ -59,18 +24,27 @@ const CartItem = ({ item, setFlag, flag }) => {
             {/*Name Section */}
             <div className='flex flex-col gap-2'>
                 <p className='text-base text-gray-50'>{ item?.title}</p>
-                <p className='text-sm block text-gray-300 font-semibold'>$ { +item?.price * qty}</p>
+                <p className='text-sm block text-gray-300 font-semibold'>
+                    $ {+item?.price * item?.qty}
+                </p>
             </div>
             {/*Button sectiion*/}
             <div className='group flex items-center gap-2 ml-auto cursor-pointer'>
 
-                <motion.div whileTap={{scale:0.75}} onClick={()=>updateQty('remove', item.id)}>
+                <motion.div whileTap={{ scale: 0.75 }}
+                    onClick={minusItem}
+
+                >
                     <BiMinus className='text-gray-50' />
                 </motion.div>
 
-                <p className='w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center'>{ qty}</p>
+                <p className='w-5 h-5 rounded-sm bg-cartBg text-gray-50 flex items-center justify-center'>
+                    {item.qty}
+                </p>
 
-                <motion.div whileTap={{scale:0.75}}onClick={()=>updateQty('add', item.id)}>
+                <motion.div whileTap={{ scale: 0.75 }}
+                    onClick={() => dispatch(plusQty(item))}
+                >
                     <BiPlus className='text-gray-50' />
                 </motion.div>
             </div>
